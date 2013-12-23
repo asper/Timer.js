@@ -2,8 +2,11 @@
 var Timer = new Class({
 	Implements: [Events, Options],
 	options: {
+		// Initial timer value (in seconds)
 		start: 0,
+		// Number of seconds to add on each iteration (a negative value will decrement the timer)
 		step: 1,
+		// Final timer value
 		end: 30,
 		onBeforeSetOptions: function(){},
 		onAfterSetOptions: function(){},
@@ -25,9 +28,10 @@ var Timer = new Class({
 		return t;
 	},
 	start: function(){
-		var t = this;
+		var t = this,
+			delay = Math.abs(t.options.step.toInt());
 		t.fireEvent('beforeStart');
-		t.iterator = t.iterate.periodical(1000, t);
+		t.iterator = t.iterate.periodical(1000*delay, t);
 		t.fireEvent('afterStart');
 		return t;
 	},
